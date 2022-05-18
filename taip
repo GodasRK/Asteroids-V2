@@ -1,0 +1,72 @@
+#include "Game.h"
+
+void Game::initWinodw()
+{
+	this->window = new RenderWindow(VideoMode(800, 600),"Asteroids", Style::Close | Style::Titlebar);
+	this->window->setFramerateLimit(60);
+	this->window->setVerticalSyncEnabled(false);
+}
+
+void Game::initShip()
+{
+	this->ship = new Ship();
+}
+
+Game::Game()
+{
+	this->initWinodw();
+	this->initShip();
+}
+
+Game::~Game()
+{
+	delete this->window;
+	delete this->ship;
+}
+
+
+
+void Game::run()
+{
+	while (this->window->isOpen())
+	{
+		this->update();
+		this->render();
+	}
+	
+}
+
+void Game::updatePollEvents()
+{
+}
+
+void Game::updateInput()
+{
+}
+
+void Game::update()
+{
+	Event e;
+	while (this->window->pollEvent(e))
+	{
+		if (e.Event::type == Event::Closed)
+			this->window->close();
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Key::Left)or Keyboard::isKeyPressed(Keyboard::Key::A))
+		this->ship->move(-1.f, 0.f);
+	if (Keyboard::isKeyPressed(Keyboard::Key::Right) or Keyboard::isKeyPressed(Keyboard::Key::D))
+		this->ship->move(1.f, 0.f);
+	if (Keyboard::isKeyPressed(Keyboard::Key::Up) or Keyboard::isKeyPressed(Keyboard::Key::W))
+		this->ship->move(0.f, -1.f);
+	if (Keyboard::isKeyPressed(Keyboard::Key::Down) or Keyboard::isKeyPressed(Keyboard::Key::S))
+		this->ship->move(0.f, +1.f);
+}
+
+void Game::render()
+{
+
+	this->window->clear();
+	this->ship->render(*this->window);
+	this->window->display();
+	
+}
