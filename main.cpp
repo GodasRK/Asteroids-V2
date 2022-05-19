@@ -1,0 +1,18 @@
+#include <SFML/Graphics.hpp>
+#include "Game.h"
+#include <math.h>
+
+
+int main()
+{
+
+	srand(time(nullptr));
+
+	Game game;
+
+	game.run();
+
+	
+
+	return 0;
+}
