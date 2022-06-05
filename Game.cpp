@@ -23,8 +23,8 @@ void Game::initWinodw()
 
 void Game::initTextures()
 {
-	this->textures["BULLET"] = new Texture();
-	this->textures["BULLET"]->loadFromFile("Textures/Asteroid.png");
+	this->textures[ET_BULLET] = new Texture();
+	this->textures[ET_BULLET]->loadFromFile("Textures/bullet.png");
 }
 
 void Game::initShip()
@@ -39,6 +39,15 @@ void Game::initAsteroids()
 	this->spawnTimer = this->spawnTimerMax;
 }
 
+void Game::initWorld()
+{
+	this->worldBackgroundTex.loadFromFile("Textures/background.jpg");
+	this->worldBackground.setTexture(this->worldBackgroundTex);
+}
+
+
+
+
 Game::Game()
 {
 	this->initWinodw();
@@ -46,6 +55,7 @@ Game::Game()
 	this->initShip();
 	this->initAsteroids();
 	this->initText();
+	this->initWorld();
 }
 
 Game::~Game()
@@ -70,7 +80,7 @@ Game::~Game()
 
 
 
-void Game::run()
+ void Game::run()
 {
 	while (this->window->isOpen())
 	{
@@ -95,17 +105,17 @@ void Game::updatePollEvents()
 
 void Game::updateInput()
 {
-	if (Keyboard::isKeyPressed(Keyboard::Key::Left) or Keyboard::isKeyPressed(Keyboard::Key::A))
+	if (Keyboard::isKeyPressed(Keyboard::Key::Left) || Keyboard::isKeyPressed(Keyboard::Key::A))
 		this->ship->move(-1.f, 0.f);
-	if (Keyboard::isKeyPressed(Keyboard::Key::Right) or Keyboard::isKeyPressed(Keyboard::Key::D))
+	if (Keyboard::isKeyPressed(Keyboard::Key::Right) || Keyboard::isKeyPressed(Keyboard::Key::D))
 		this->ship->move(1.f, 0.f);
-	if (Keyboard::isKeyPressed(Keyboard::Key::Up) or Keyboard::isKeyPressed(Keyboard::Key::W))
+	if (Keyboard::isKeyPressed(Keyboard::Key::Up) || Keyboard::isKeyPressed(Keyboard::Key::W))
 		this->ship->move(0.f, -1.f);
-	if (Keyboard::isKeyPressed(Keyboard::Key::Down) or Keyboard::isKeyPressed(Keyboard::Key::S))
+	if (Keyboard::isKeyPressed(Keyboard::Key::Down) || Keyboard::isKeyPressed(Keyboard::Key::S))
 		this->ship->move(0.f, +1.f);
 	if (Keyboard::isKeyPressed(Keyboard::Key::Space)&&this->ship->canAttack())
 	{
-		this->bullets.push_back(new Bullet(this->textures["BULLET"],this->ship->getPos().x+ this->ship->getBounds().width/20, this->ship->getPos().y, 0.f, -2.f, 5.f));
+		this->bullets.push_back(new Bullet(this->textures[ET_BULLET],this->ship->getPos().x+ this->ship->getBounds().width/20, this->ship->getPos().y, 0.f, -2.f, 5.f));
 	}
 }
 
@@ -116,10 +126,10 @@ void Game::updateBullets()
 	{
 		bullet->update();
 
-		
+
 		if (bullet->getBounds().top + bullet->getBounds().height < 0.f)
 		{
-			
+
 			delete this->bullets.at(counter);
 			this->bullets.erase(this->bullets.begin() + counter);
 			--counter;
@@ -132,7 +142,7 @@ void Game::updateBullets()
 
 void Game::updateAsteroidsAndCombat()
 {
-	this->spawnTimer += 2.f;
+	this->spawnTimer += 10.f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
 		this->asteroids.push_back(new Asteroid(rand() % this->window->getSize().x - 20.f, -100.f));
@@ -171,8 +181,14 @@ void Game::updateAsteroidsAndCombat()
 	}
 }
 
+void Game::renderWorld()
+{
+	this->window->draw(this->worldBackground);
+}
+
 void Game::update()
 {
+
 	this->updatePollEvents();
 	this->updateInput();
 	this->ship->update();
@@ -183,9 +199,11 @@ void Game::update()
 
 void Game::render()
 {
-
+	
 
 	this->window->clear();
+
+	this->renderWorld();
 
 	this->ship->render(*this->window);
 

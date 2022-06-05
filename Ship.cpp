@@ -4,7 +4,7 @@
 
 void Ship::initTexture()
 {
-	this->texture.loadFromFile("Textures/Asteroid.png");
+	this->texture.loadFromFile("Textures/ship.png");
 }
 
 void Ship::initSprite()

@@ -20,11 +20,14 @@ private:
 	RenderWindow* window;
 	Font font;
 
+	Texture worldBackgroundTex;
+	Sprite worldBackground;
+
 	Text text;
 
-	
+	enum ETexture { ET_BULLET, green, blue };
 
-	map<string,Texture*> textures;
+	map<ETexture,Texture*> textures;
 	vector <Bullet*> bullets;
 
 	void initText();
@@ -32,6 +35,7 @@ private:
 	void initTextures();
 	void initShip();
 	void initAsteroids();
+	void initWorld();
 
 public:
 
@@ -46,7 +50,7 @@ public:
 	void updateInput();
 	void updateBullets();
 	void updateAsteroidsAndCombat();
-
+	void renderWorld();
 	void update();
 
 	void render();
