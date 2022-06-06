@@ -42,6 +42,16 @@ const FloatRect Ship::getBounds() const
 	return this->sprite.getGlobalBounds();
 }
 
+void Ship::setPosition(const Vector2f pos)
+{
+	this->sprite.setPosition(pos);
+}
+
+void Ship::setPosition(const float x, const float y)
+{
+	this->sprite.setPosition(x, y);
+}
+
 void Ship::updateCool()
 {
 	if(this->cool<this->coolMax)

@@ -140,6 +140,32 @@ void Game::updateBullets()
 
 }
 
+void Game::updateWorld()
+{
+
+}
+
+void Game::updateCollision()
+{
+	if (this->ship->getBounds().left < 0.f)
+	{
+		this->ship->setPosition(0.f, this->ship->getBounds().top);
+	}
+    else if (this->ship->getBounds().left+ this->ship->getBounds().width >= this->window->getSize().x)
+	{
+		this->ship->setPosition(this->window->getSize().x- this->ship->getBounds().width, this->ship->getBounds().top);
+	}
+
+	if (this->ship->getBounds().top < 0.f)
+	{
+		this->ship->setPosition(this->ship->getBounds().left,0.f);
+	}
+	else if (this->ship->getBounds().top + this->ship->getBounds().height >= this->window->getSize().y)
+	{
+		this->ship->setPosition(this->ship->getBounds().left, this->window->getSize().y - this->ship->getBounds().height);
+	}
+}
+
 void Game::updateAsteroidsAndCombat()
 {
 	this->spawnTimer += 10.f;
@@ -192,8 +218,10 @@ void Game::update()
 	this->updatePollEvents();
 	this->updateInput();
 	this->ship->update();
+	this->updateCollision();
 	this->updateBullets();
 	this->updateAsteroidsAndCombat();
+	this->updateWorld();
 }
 	
 

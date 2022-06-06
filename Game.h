@@ -49,6 +49,8 @@ public:
 
 	void updateInput();
 	void updateBullets();
+	void updateWorld();
+	void updateCollision();
 	void updateAsteroidsAndCombat();
 	void renderWorld();
 	void update();

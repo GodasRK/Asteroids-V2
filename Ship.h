@@ -29,6 +29,9 @@ public:
 	const Vector2f& getPos() const;
 	const FloatRect getBounds() const;
 
+	void setPosition(const Vector2f pos);
+	void setPosition(const float x, const float y);
+
 	void updateCool();
 	const bool canAttack();
 	void update();
