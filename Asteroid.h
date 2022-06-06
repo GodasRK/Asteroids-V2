@@ -8,6 +8,7 @@ using namespace sf;
 class Asteroid
 {
 private:
+	unsigned startingSpeed = 7;
 	Sprite sprite;
 	Texture texture;
 	float speed;

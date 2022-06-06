@@ -12,8 +12,7 @@ void Asteroid::initSprite()
 
 void Asteroid::initVariables()
 {
-	this->speed = 10.f;
-	
+	this->speed = static_cast<float>(this->startingSpeed);
 }
 
 

@@ -25,6 +25,10 @@ private:
 
 	Text text;
 
+	int hp;
+
+	Text gameOverText;
+
 	enum ETexture { ET_BULLET, green, blue };
 
 	map<ETexture,Texture*> textures;
@@ -36,6 +40,7 @@ private:
 	void initShip();
 	void initAsteroids();
 	void initWorld();
+	void initGUI();
 
 public:
 
@@ -53,6 +58,7 @@ public:
 	void updateCollision();
 	void updateAsteroidsAndCombat();
 	void renderWorld();
+	void renderGUI();
 	void update();
 
 	void render();

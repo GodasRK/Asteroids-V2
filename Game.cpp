@@ -30,7 +30,7 @@ void Game::initTextures()
 void Game::initShip()
 {
 	this->ship = new Ship(350,500);
-	
+	this->hp = 1;
 }
 
 void Game::initAsteroids()
@@ -45,14 +45,27 @@ void Game::initWorld()
 	this->worldBackground.setTexture(this->worldBackgroundTex);
 }
 
+void Game::initGUI()
+{
+	this->gameOverText.setFont(font);
+	this->gameOverText.setCharacterSize(60);
+	this->gameOverText.setFillColor(sf::Color::Red);
+	this->gameOverText.setString("Game over!");
+	this->gameOverText.setPosition(
+		this->window->getSize().x / 3.3,this->window->getSize().y / 2.5);
+	
+}
+
 
 
 
 Game::Game()
 {
+	
 	this->initWinodw();
 	this->initTextures();
 	this->initShip();
+	this->initGUI();
 	this->initAsteroids();
 	this->initText();
 	this->initWorld();
@@ -84,8 +97,15 @@ Game::~Game()
 {
 	while (this->window->isOpen())
 	{
-		this->update();
-		score++;
+		this->updatePollEvents();
+
+		if (this->hp == 1)
+		{
+			score++;
+			this->update();
+		}
+		
+		
 		this->render();
 	}
 	
@@ -168,7 +188,7 @@ void Game::updateCollision()
 
 void Game::updateAsteroidsAndCombat()
 {
-	this->spawnTimer += 10.f;
+	this->spawnTimer += 5.f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
 		this->asteroids.push_back(new Asteroid(rand() % this->window->getSize().x - 20.f, -100.f));
@@ -200,9 +220,16 @@ void Game::updateAsteroidsAndCombat()
 				enemy_removed = true;
 
 			}
-
+			else if (asteroids[i]->getBounds().intersects(this->ship->getBounds()))
+			{
+				this->hp = 0;
+				delete this->asteroids[i];
+				this->asteroids.erase(this->asteroids.begin() + i);
+				enemy_removed = true;
+			}
 
 		}
+		
 
 	}
 }
@@ -212,10 +239,15 @@ void Game::renderWorld()
 	this->window->draw(this->worldBackground);
 }
 
+void Game::renderGUI()
+{
+	
+}
+
 void Game::update()
 {
 
-	this->updatePollEvents();
+	
 	this->updateInput();
 	this->ship->update();
 	this->updateCollision();
@@ -247,6 +279,11 @@ void Game::render()
 
 	this->text.setString(to_string(score));
 	window->draw(text);
+
+	this->renderGUI();
+
+	if (this->hp == 0)
+		this->window->draw(this->gameOverText);
 	
 	this->window->display();
 	

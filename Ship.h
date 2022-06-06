@@ -14,6 +14,7 @@ private:
 	Texture texture;
 
 	float speed;
+	
 
 	float cool;
 		float coolMax;
